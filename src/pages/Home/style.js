@@ -37,6 +37,7 @@ export const Movie = styled.li `
   
     span {
       font-weight: bold;
+      text-align: center;
     }
   
     a {

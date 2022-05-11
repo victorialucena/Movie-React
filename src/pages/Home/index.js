@@ -1,29 +1,23 @@
 import { Container, Movie, MovieList } from './style'
+import { APIkey } from '../../config/key'
+import {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
 
 function Home() {
-  const movies = [
-    {
-      id: 1,
-      title: 'A proposta',
-      image_url:
-        'https://br.web.img3.acsta.net/medias/nmedia/18/87/29/75/19874043.jpg'
-    },
 
-    {
-      id: 2,
-      title: 'Sherek',
-      image_url:
-        'https://upload.wikimedia.org/wikipedia/pt/e/e6/Shrek_Poster.jpg'
-    },
+  const [movies, setMovies] = useState([])
 
-    {
-      id: 3,
-      title: 'Jonh Wick',
-      image_url:
-        'https://upload.wikimedia.org/wikipedia/pt/thumb/1/13/John_wick_ver3.jpg/250px-John_wick_ver3.jpg'
-    }
-  ]
+  const images_path = 'https://image.tmdb.org/t/p/w500'
 
+  useEffect(() => {
+
+    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${APIkey}&language=en-US&page=1
+    `)
+    .then(response => response.json())
+    .then(data => setMovies(data.results))
+
+  }, [])
+  
   return (
     <Container>
       <h1>Movies</h1>
@@ -31,9 +25,7 @@ function Home() {
         {movies.map(movie => {
           return (
             <Movie key={movie.id}>
-              <a href="https://google.com.br">
-                <img src={movie.image_url} alt={movie.title} />
-              </a>
+              <Link to={`/details/${movie.id}`} > <img src={`${images_path}${movie.poster_path}`} alt={movie.title}/> </Link>
               <span>{movie.title}</span>
             </Movie>
           )
